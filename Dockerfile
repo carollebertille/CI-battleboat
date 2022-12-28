@@ -1,5 +1,5 @@
 FROM ubuntu
-MAINTAINER eazytraining (eazytrainingfr@gmail.com)
+MAINTAINER carolle
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nginx git
 EXPOSE 80
