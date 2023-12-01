@@ -20,6 +20,6 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_ID }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag  ${{ secrets.DOCKER_HUB_ID }}/battleboat:v1.0
+      run: docker build . --file Dockerfile_battleboat --tag  ${{ secrets.DOCKER_HUB_ID }}/battleboat:v1.0
     - name: Push image
       run: docker push ${{ secrets.DOCKER_HUB_ID }}/battleboat:v1.0
