@@ -1,5 +1,5 @@
 ---
-name: website
+name: battleboat
 'on':
   pull_request:
   push:
