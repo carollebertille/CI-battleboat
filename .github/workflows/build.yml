@@ -28,7 +28,7 @@ jobs:
         run: | 
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$IMAGE_TAG .
           docker save ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$IMAGE_TAG > $IMAGE_NAME
-          echo "IMAGE_NAME=website" >> $GITHUB_ENV
+          echo "IMAGE_NAME=battleboat" >> $GITHUB_ENV
       - name: Cache artefact
         uses: actions/cache@v3
         with:
