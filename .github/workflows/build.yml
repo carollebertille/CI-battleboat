@@ -9,7 +9,7 @@ name: website
 #  schedule:
 #    - cron: "0 2 * * *"
 env:
-  HEROKU_APP_STG: "softech-develop"
+  HEROKU_APP_DEV: "softech-develop"
   HEROKU_APP_PROD: "softech-prod"
   IMAGE_NAME: "battleboat"
   IMAGE_TAG: "latest"
@@ -85,7 +85,7 @@ jobs:
       - name: Install and configure Heroku CLI
         run: | 
           sudo apt install nodejs
-          echo "DEVELOP=${HEROKU_APP_STG}-staging" >> $GITHUB_ENV
+          echo "DEVELOP=${HEROKU_APP_DEV}-develop" >> $GITHUB_ENV
           echo "PRODUCTION=${HEROKU_APP_PROD}-production" >> $GITHUB_ENV
       
       - name: Deploy develop
