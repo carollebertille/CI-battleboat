@@ -9,8 +9,8 @@ name: website
 #  schedule:
 #    - cron: "0 2 * * *"
 env:
-  HEROKU_APP_DEV: "softech-develop"
-  HEROKU_APP_PROD: "softech-prod"
+  HEROKU_APP_DEV: "battleboat-develop"
+  HEROKU_APP_PROD: "battleboat-prod"
   IMAGE_NAME: "battleboat"
   IMAGE_TAG: "latest"
   CONTAINER_PORT: "80"
@@ -85,8 +85,8 @@ jobs:
       - name: Install and configure Heroku CLI
         run: | 
           sudo apt install nodejs
-          echo "DEVELOP=${HEROKU_APP_DEV}-develop" >> $GITHUB_ENV
-          echo "PRODUCTION=${HEROKU_APP_PROD}-production" >> $GITHUB_ENV
+          echo "DEVELOP=${HEROKU_APP_DEV}" >> $GITHUB_ENV
+          echo "PRODUCTION=${HEROKU_APP_PROD}" >> $GITHUB_ENV
       
       - name: Deploy develop
         env:
