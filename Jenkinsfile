@@ -9,7 +9,7 @@ pipeline {
       }
     parameters {
         choice(
-            choices: ['dev', 'main'], 
+            choices: ['dev', 'production'], 
             name: 'Environment'
         )
     }
@@ -22,7 +22,7 @@ pipeline {
         /*stage('SonarQube analysis') {
            when{  
             expression {
-              params.Environment == 'main' }
+              params.Environment == 'production' }
               }
                environment {
                   scannerHome = tool 'Sonar'
@@ -45,7 +45,7 @@ pipeline {
         stage('Build image') {
            when{  
             expression {
-              params.Environment == 'main' }
+              params.Environment == 'production' }
               }
             steps {
                 script {
@@ -74,7 +74,7 @@ pipeline {
         stage('push image') {
            when{  
             expression {
-              params.Environment == 'main' }
+              params.Environment == 'production' }
               }
             steps {
                 script {
