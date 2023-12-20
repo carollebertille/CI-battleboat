@@ -58,7 +58,7 @@ pipeline {
         stage('Scan Image with  SNYK') {
             agent any
             environment{
-                SNYK_TOKEN = credentials('snyk_token')
+                SNYK_TOKEN = credentials('snyktoken')
             }
             steps {
                 script{
