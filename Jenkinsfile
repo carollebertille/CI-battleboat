@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker push  DOCKERHUB_PASSWORD/$IMAGE_NAME:${BUILD_NUMBER}
+                        docker push  $DOCKERHUB_PASSWORD/$IMAGE_NAME:${BUILD_NUMBER}
                       '''
                 }
             }
