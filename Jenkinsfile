@@ -77,7 +77,7 @@ pipeline {
              script {
                sh '''
                    
-                   docker rm ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
+                   docker rmi ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
                '''
              }
           }
