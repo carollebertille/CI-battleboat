@@ -1,0 +1,15 @@
+---
+fake_backend_source_repo: "git@github.com:lusianneDjepang/fake-backend_for-sonar-projet.git"
+fake_backend_source_branch: "master"
+battleboat_image_tag: "v1.0"
+
+home: "/home/build"
+
+
+ip_addr_prod: "192.168.1.92"
+port_app: "8181"
+
+# secret data vaulted
+docker_hub_login: "{{vault_docker_hub_login}}"
+docker_hub_email: "{{ vault_docker_hub_email }}"
+docker_hub_password: "{{ vault_docker_hub_password }}"

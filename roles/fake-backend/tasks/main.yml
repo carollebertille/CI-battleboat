@@ -1,0 +1,28 @@
+---
+# This playbook is used to deploy fake-backend application based on Docker
+
+# build and push builded images
+
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ docker_hub_login }}"
+    email: "{{ docker_hub_email }}"
+    password: "{{ docker_hub_password }}"
+  tags:
+    - build
+
+# deploy frontend
+
+- name: Deploy frontend
+  docker_container:
+    name: "battle"
+    hostname: "battle"
+    image: "{{ docker_hub_login }}/battleboat:{{ battleboat_image_tag }}"
+    state: "started"
+    restart_policy: "always"
+    networks:
+      - name: "battleboat"
+    ports:
+      - "8181:80"
+  tags:
+    - build
