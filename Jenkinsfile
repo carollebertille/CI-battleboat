@@ -76,8 +76,8 @@ pipeline {
           steps {
              script {
                sh '''
-                   docker stop $IMAGE_NAME
-                   docker rm $IMAGE_NAME
+                   docker stop ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
+                   docker rm ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
                '''
              }
           }
