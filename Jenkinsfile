@@ -16,7 +16,7 @@ pipeline {
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS_PSW = credentials('dockerhub')
     }
     stages {
         /*stage('SonarQube analysis') {
