@@ -16,7 +16,7 @@ pipeline {
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
-        DOCKERHUB_CREDENTIALS_PSW = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
         /*stage('SonarQube analysis') {
@@ -50,7 +50,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker build -t $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER} .
                         sh 'docker build --no-cache -f ./sources-code/${DOCKERFILE} -t ${DOCKERHUB_ID}/$IMAGE_NAME:$IMAGE_TAG ./sources-code'
                     '''
                 }
