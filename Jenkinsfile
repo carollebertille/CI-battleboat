@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        sh 'docker build --no-cache -f ./sources-code/Dockerfile_battleboat -t ${DOCKERHUB_ID}/$IMAGE_NAME:$IMAGE_TAG ./sources-code/Dockerfile_battleboat'
+                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER} .
                     '''
                 }
             }
