@@ -51,6 +51,7 @@ pipeline {
                 script {
                     sh '''
                         docker build -t $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER} .
+                        sh 'docker build --no-cache -f ./sources/${DOCKERFILE} -t ${DOCKERHUB_ID}/$IMAGE_NAME:$IMAGE_TAG ./sources'
                     '''
                 }
             }
