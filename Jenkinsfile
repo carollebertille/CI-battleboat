@@ -16,7 +16,7 @@ pipeline {
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
-        DOCKERHUB_PASSWORD = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
         /*stage('SonarQube analysis') {
@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                      echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_ID --password-stdin
+                      echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_ID --password-stdin
                         docker push ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
                       '''
                 }
