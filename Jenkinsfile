@@ -97,7 +97,7 @@ pipeline {
             }
         }
          
-         stage('Package SANDBOX') {
+         /*stage('Package SANDBOX') {
            when{  
             expression {
               params.Environment == 'SANDBOX' }
@@ -154,7 +154,7 @@ pipeline {
             steps {
                 sh "Wait for argocd"
             }
-        }
+        }*/
         
 
  }
