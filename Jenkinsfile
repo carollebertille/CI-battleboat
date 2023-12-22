@@ -105,7 +105,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
                         docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
                         docker push $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
                         
