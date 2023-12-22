@@ -21,8 +21,6 @@ pipeline {
         STAGE_VERSION="0.0.${BUILD_NUMBER}"
         RC_VERSION="1.0.${BUILD_NUMBER}"
     }
-   
-   
     stages {
         /*stage('SonarQube analysis') {
            when{  
@@ -85,7 +83,7 @@ pipeline {
                 }
             }
         }
-         stage('Package DEV') {
+         stage('Remove image in the local') {
            when{  
             expression {
               params.Environment == 'DEV' }
