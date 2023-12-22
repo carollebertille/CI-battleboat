@@ -83,7 +83,7 @@ pipeline {
                 }
             }
         }
-         stage('Remove image in the local') {
+         stage('Package DEV') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -96,15 +96,7 @@ pipeline {
                 }
             }
         }
-         stage('Package DEV') {
-            steps {
-                script {
-                    sh '''
-                        docker rmi $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                      '''
-                }
-            }
-        }
+         
          stage('Package SANDBOX') {
            when{  
             expression {
