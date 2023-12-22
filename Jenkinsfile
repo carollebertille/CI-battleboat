@@ -7,17 +7,22 @@ pipeline {
         timeout (time: 60, unit: 'MINUTES')
         timestamps()
       }
-    parameters {
+     parameters {
         choice(
-            choices: ['dev', 'production'], 
+            choices: ['DEV', 'SANDBOX', 'PROD'], 
             name: 'Environment'
-        )
+          )
     }
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DEV_VERSION="0.0.${BUILD_NUMBER}
+        STAGE_VERSION="0.0.${BUILD_NUMBER}
+        RC_VERSION="1.0.${BUILD_NUMBER}
     }
+   
+   
     stages {
         /*stage('SonarQube analysis') {
            when{  
@@ -71,27 +76,99 @@ pipeline {
                 }
             }
         }*/
-        stage('Clean container') {
-          agent any
-          steps {
-             script {
-               sh '''
-                   
-                   docker rmi ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
-               '''
-             }
-          }
+        stage('Login Dockerhub') {
+            steps {
+                script {
+                    sh '''
+                        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_ID --password-stdin
+                      '''
+                }
+            }
         }
-        stage('login and push image') {
+         stage('Package dev') {
            when{  
             expression {
-              params.Environment == 'production' }
+              params.Environment == 'DEV' }
               }
             steps {
                 script {
                     sh '''
-                      echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_ID --password-stdin
-                        docker push ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                      '''
+                }
+            }
+        }
+         stage('Package sandbox') {
+           when{  
+            expression {
+              params.Environment == 'SANDBOX' }
+              }
+            steps {
+                script {
+                    sh '''
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                      '''
+                }
+            }
+        }
+        stage('Package prod') {
+           when{  
+            expression {
+              params.Environment == 'PROD' }
+              }
+            steps {
+                script {
+                    sh '''
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                      '''
+                }
+            }
+        }
+        stage('Deploy dev') {
+           when{  
+            expression {
+              params.Environment == 'DEV' }
+              }
+            steps {
+                script {
+                    sh '''
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                      '''
+                }
+            }
+        }
+        stage('Deploy sandbox') {
+           when{  
+            expression {
+              params.Environment == 'SANDBOX' }
+              }
+            steps {
+                script {
+                    sh '''
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                      '''
+                }
+            }
+        }
+        stage('Deploy prod') {
+           when{  
+            expression {
+              params.Environment == 'PROD' }
+              }
+            steps {
+                script {
+                    sh '''
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
                       '''
                 }
             }
