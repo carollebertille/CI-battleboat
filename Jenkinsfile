@@ -105,7 +105,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:0.0.190
                         
                       '''
                 }
