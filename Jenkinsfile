@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER} .
+                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:$DEV_VERSION .
                     '''
                 }
             }
