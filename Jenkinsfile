@@ -128,49 +128,27 @@ pipeline {
                 }
             }
         }
-        stage('Deploy dev') {
-           when{  
-            expression {
-              params.Environment == 'DEV' }
-              }
+        stage('Deploy DEV') {
             steps {
-                script {
-                    sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                      '''
-                }
+                git branch: 'main', url: 'git@github.com:carollebertille/deployment-battleboat.git'
+                sh "git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'"
+                sh "git checkout main"
+                sh "cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION"
+                sh "git commit -am 'Publish new dev release' && git push origin main:main || echo 'no change'"
             }
         }
-        stage('Deploy sandbox') {
-           when{  
-            expression {
-              params.Environment == 'SANDBOX' }
-              }
+        stage('Deploy SANDBOX') {
             steps {
-                script {
-                    sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                      '''
-                }
+                sh "git checkout main"
+                sh "cd ./overlays/sandbox/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION"
+                sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
             }
         }
-        stage('Deploy prod') {
-           when{  
-            expression {
-              params.Environment == 'PROD' }
-              }
+        stage('Deploy PROD') {
             steps {
-                script {
-                    sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                      '''
-                }
+                sh "git checkout main"
+                sh "cd ./overlays/prod/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION"
+                sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
             }
         }
 
