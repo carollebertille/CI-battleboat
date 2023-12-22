@@ -27,7 +27,7 @@ pipeline {
         /*stage('SonarQube analysis') {
            when{  
             expression {
-              params.Environment == 'production' }
+              params.Environment == 'DEV' }
               }
                environment {
                   scannerHome = tool 'Sonar'
@@ -50,7 +50,7 @@ pipeline {
         stage('Build image') {
            when{  
             expression {
-              params.Environment == 'production' }
+              params.Environment == 'DEV' }
               }
             steps {
                 script {
@@ -85,7 +85,7 @@ pipeline {
                 }
             }
         }
-         stage('Package dev') {
+         stage('Package DEV') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -98,7 +98,7 @@ pipeline {
                 }
             }
         }
-         stage('Package sandbox') {
+         stage('Package SANDBOX') {
            when{  
             expression {
               params.Environment == 'SANDBOX' }
@@ -113,7 +113,7 @@ pipeline {
                 }
             }
         }
-        stage('Package prod') {
+        stage('Package PROD') {
            when{  
             expression {
               params.Environment == 'PROD' }
