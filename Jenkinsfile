@@ -18,8 +18,8 @@ pipeline {
         DOCKERHUB_ID = "edennolan2021"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         DEV_VERSION="0.0.${BUILD_NUMBER}"
-        STAGE_VERSION="0.0.${BUILD_NUMBER}"
-        RC_VERSION="1.0.${BUILD_NUMBER}"
+        STAGE_VERSION="1.0.${BUILD_NUMBER}"
+        RC_VERSION="1.1.${BUILD_NUMBER}"
     }
     stages {
         /*stage('SonarQube analysis') {
