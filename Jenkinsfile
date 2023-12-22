@@ -97,7 +97,7 @@ pipeline {
             }
         }
          
-         /*stage('Package SANDBOX') {
+         stage('Package SANDBOX') {
            when{  
             expression {
               params.Environment == 'SANDBOX' }
@@ -105,14 +105,13 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        
                       '''
                 }
             }
         }
-        stage('Package PROD') {
+        /*stage('Package PROD') {
            when{  
             expression {
               params.Environment == 'PROD' }
