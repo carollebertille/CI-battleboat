@@ -151,6 +151,12 @@ pipeline {
                 sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
             }
         }
+        stage('Argocd') {
+            steps {
+                sh "Wait for argocd"
+            }
+        }
+        
 
  }
 }
