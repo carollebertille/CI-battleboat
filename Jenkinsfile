@@ -109,7 +109,6 @@ pipeline {
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:
                         docker tag $DOCKERHUB_ID/$IMAGE_NAME: $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
                         
-                        
                       '''
                 }
             }
