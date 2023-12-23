@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:$DEV_VERSION .
+                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER} .
                     '''
                 }
             }
@@ -93,12 +93,27 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
                       '''
                 }
             }
         }
-         
+         stage('Package QA') {
+           when{  
+            expression {
+              params.Environment == 'QA' }
+              }
+            steps {
+                script {
+                    sh '''
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME: $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        
+                        
+                      '''
+                }
+            }
+        }
          stage('Package SANDBOX') {
            when{  
             expression {
