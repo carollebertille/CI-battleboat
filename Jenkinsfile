@@ -144,7 +144,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy DEV') {
+        stage('Update DEV manifest') {
          when{  
             expression {
               params.Environment == 'DEV' }
@@ -152,12 +152,11 @@ pipeline {
             steps {
                 git branch: 'main', url: 'git@github.com:carollebertille/deployment-battleboat.git'
                 sh "git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'"
-                sh "git checkout main"
-                sh "cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION"
+                sh "cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}"
                 sh "git commit -am 'Publish new dev release' && git push origin main:main || echo 'no change'"
             }
         }
-        stage('Deploy SANDBOX') {
+       stage('Update QA manifest') {
           when{  
             expression {
               params.Environment == 'QA' }
@@ -167,8 +166,19 @@ pipeline {
                 sh "cd ./overlays/sandbox/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION"
                 sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
             }
+        } 
+        stage('Update sandbox manifest') {
+          when{  
+            expression {
+              params.Environment == 'SANDBOX' }
+              }
+            steps {
+                sh "git checkout main"
+                sh "cd ./overlays/sandbox/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION"
+                sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
+            }
         }
-        stage('Deploy PROD') {
+        stage('Update PROD manifest') {
           when{  
             expression {
               params.Environment == 'PROD' }
