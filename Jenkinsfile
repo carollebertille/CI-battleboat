@@ -12,14 +12,32 @@ pipeline {
             choices: ['DEV', 'QA','SANDBOX', 'PROD'], 
             name: 'Environment'
           )
+        string(
+            defaultValue: '0.0.0',
+            name: 'dev_tag',
+            description: '''Please enter dev image tag to be used''',
+         )
+
+       string(
+           defaultValue: '0.0.0',
+           name: 'qa_tag',
+           description: '''Please enter qa image tag to be used''',
+          )
+       string(
+           defaultValue: '0.0.0',
+           name: sandbox_tag',
+           description: '''Please enter sandbox image tag to be used''',
+          )
+      string(
+           defaultValue: '0.0.0',
+           name: 'prod_tag',
+           description: '''Please enter prod image tag to be used''',
+          )
     }
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        QA_VERSION="0.0.${BUILD_NUMBER}"
-        STAGE_VERSION="1.0.${BUILD_NUMBER}"
-        RC_VERSION="1.1.${BUILD_NUMBER}"
     }
     stages {
         /*stage('SonarQube analysis') {
@@ -55,7 +73,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER} .
+                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:$dev_tag .
                     '''
                 }
             }
@@ -70,7 +88,7 @@ pipeline {
                     sh '''
                     echo "Starting Image scan $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER} ..." 
                     echo There is Scan result : 
-                    SCAN_RESULT=$(docker run --rm -e SNYK_TOKEN=$SNYK_TOKEN -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/app snyk/snyk:docker snyk test --docker $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER} --json ||  if [ $? -gt "1" ];then echo -e "Warning, you must see scan result \n" ;  false; elif [ $? -eq "0" ]; then   echo "PASS : Nothing to Do"; elif [ $? -eq "1" ]; then   echo "Warning, passing with something to do";  else false; fi)
+                    SCAN_RESULT=$(docker run --rm -e SNYK_TOKEN=$SNYK_TOKEN -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/app snyk/snyk:docker snyk test --docker $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag --json ||  if [ $? -gt "1" ];then echo -e "Warning, you must see scan result \n" ;  false; elif [ $? -eq "0" ]; then   echo "PASS : Nothing to Do"; elif [ $? -eq "1" ]; then   echo "Warning, passing with something to do";  else false; fi)
                     echo "Scan ended"
                     '''
                 }
@@ -93,7 +111,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag
                       '''
                 }
             }
@@ -106,8 +124,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME: $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
                         
                       '''
                 }
@@ -121,8 +139,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME: $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag
                         
                         
                       '''
@@ -137,8 +155,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag $DOCKERHUB_ID/$IMAGE_NAME:$prod_tag
                         
                       '''
                 }
@@ -153,7 +171,7 @@ pipeline {
               sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
@@ -167,7 +185,7 @@ pipeline {
                 sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
@@ -181,7 +199,7 @@ pipeline {
                 sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
@@ -195,7 +213,7 @@ pipeline {
                 sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$prod_tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
