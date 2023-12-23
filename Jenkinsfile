@@ -150,10 +150,12 @@ pipeline {
               params.Environment == 'DEV' }
               }
             steps {
-                git branch: 'main', url: 'git@github.com:carollebertille/deployment-battleboat.git'
-                sh "git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'"
-                sh "cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}"
-                sh "git commit -am 'Publish new dev release' && git push origin main:main || echo 'no change'"
+              sh '''
+                git clone git@github.com:carollebertille/deployment-battleboat.git
+                git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                git commit -am 'Publish new dev release' && git push
+              '''
             }
         }
        stage('Update QA manifest') {
@@ -162,9 +164,12 @@ pipeline {
               params.Environment == 'QA' }
               }
             steps {
-                sh "git checkout main"
-                sh "cd ./overlays/sandbox/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION"
-                sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
+                sh '''
+                git clone git@github.com:carollebertille/deployment-battleboat.git
+                git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                git commit -am 'Publish new dev release' && git push
+              '''
             }
         } 
         stage('Update sandbox manifest') {
@@ -173,9 +178,12 @@ pipeline {
               params.Environment == 'SANDBOX' }
               }
             steps {
-                sh "git checkout main"
-                sh "cd ./overlays/sandbox/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION"
-                sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
+                sh '''
+                git clone git@github.com:carollebertille/deployment-battleboat.git
+                git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                git commit -am 'Publish new dev release' && git push
+              '''
             }
         }
         stage('Update PROD manifest') {
@@ -184,9 +192,12 @@ pipeline {
               params.Environment == 'PROD' }
               }
             steps {
-                sh "git checkout main"
-                sh "cd ./overlays/prod/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION"
-                sh "git commit -am 'Publish new sandbox release' && git push origin main:main || echo 'no change'"
+                sh '''
+                git clone git@github.com:carollebertille/deployment-battleboat.git
+                git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}
+                git commit -am 'Publish new dev release' && git push
+              '''
             }
         }
         stage('Argocd') {
