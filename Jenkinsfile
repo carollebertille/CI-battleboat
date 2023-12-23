@@ -9,7 +9,7 @@ pipeline {
       }
      parameters {
         choice(
-            choices: ['DEV', 'SANDBOX', 'PROD'], 
+            choices: ['DEV', 'QA','SANDBOX', 'PROD'], 
             name: 'Environment'
           )
     }
@@ -17,7 +17,7 @@ pipeline {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        DEV_VERSION="0.0.${BUILD_NUMBER}"
+        QA_VERSION="0.0.${BUILD_NUMBER}"
         STAGE_VERSION="1.0.${BUILD_NUMBER}"
         RC_VERSION="1.1.${BUILD_NUMBER}"
     }
@@ -28,8 +28,10 @@ pipeline {
               params.Environment == 'DEV' }
               }
                environment {
-                  scannerHome = tool 'Sonar'
-               }
+             CI = 'true'
+                //  scannerHome = tool 'Sonar'
+              scannerHome='/opt/sonar-scanner'
+             }
              steps {
                    script {
                        withSonarQubeEnv('SonarCloud') {
@@ -41,8 +43,8 @@ pipeline {
 
         stage("Quality Gate") {
             steps {
-                // Wait for the SonarQube quality gate
-                waitForQualityGate abortPipeline: true
+                timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true }
             }
         }*/
         stage('Build image') {
