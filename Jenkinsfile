@@ -98,7 +98,7 @@ pipeline {
                 }
             }
         }
-         stage('Package QA') {
+         stage('Pull and tag image QA') {
            when{  
             expression {
               params.Environment == 'QA' }
@@ -113,7 +113,7 @@ pipeline {
                 }
             }
         }
-         stage('Package SANDBOX') {
+         stage('Pull and tag image SANDBOX') {
            when{  
             expression {
               params.Environment == 'SANDBOX' }
@@ -121,15 +121,15 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME: $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION
+                        
                         
                       '''
                 }
             }
         }
-        /*stage('Package PROD') {
+        /*stage('Pull and tag image PROD') {
            when{  
             expression {
               params.Environment == 'PROD' }
@@ -139,12 +139,16 @@ pipeline {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION
                         docker tag $DOCKERHUB_ID/$IMAGE_NAME:$DEV_VERSION $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION
+                        
                       '''
                 }
             }
         }
         stage('Deploy DEV') {
+         when{  
+            expression {
+              params.Environment == 'DEV' }
+              }
             steps {
                 git branch: 'main', url: 'git@github.com:carollebertille/deployment-battleboat.git'
                 sh "git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'"
@@ -154,6 +158,10 @@ pipeline {
             }
         }
         stage('Deploy SANDBOX') {
+          when{  
+            expression {
+              params.Environment == 'QA' }
+              }
             steps {
                 sh "git checkout main"
                 sh "cd ./overlays/sandbox/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$STAGE_VERSION"
@@ -161,6 +169,10 @@ pipeline {
             }
         }
         stage('Deploy PROD') {
+          when{  
+            expression {
+              params.Environment == 'PROD' }
+              }
             steps {
                 sh "git checkout main"
                 sh "cd ./overlays/prod/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$RC_VERSION"
