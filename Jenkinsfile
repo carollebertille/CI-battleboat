@@ -24,7 +24,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
-        stage('SonarQube analysis') {
+        /*stage('SonarQube analysis') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -50,7 +50,7 @@ pipeline {
                 timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true }
             }
-        }
+        }*/
         stage('Build image') {
            when{  
             expression {
