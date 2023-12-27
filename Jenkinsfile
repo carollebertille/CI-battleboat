@@ -63,7 +63,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Scan Image with  SNYK') {
+        stage('Scan Image with  SNYK') {
             agent any
             when{  
             expression {
@@ -82,7 +82,7 @@ pipeline {
                     '''
                 }
             }
-        }*/
+        }
         stage('Login Dockerhub') {
             steps {
                 script {
@@ -133,7 +133,7 @@ pipeline {
              }
           }
       }
-         /*stage('Package DEV') {
+         /*stage('Push image') {
            when{  
             expression {
               params.Environment == 'DEV' }
