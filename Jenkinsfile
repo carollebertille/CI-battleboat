@@ -1,4 +1,3 @@
-@Library('jenkins-shared-library')_
 pipeline {
     agent any 
     options {
@@ -106,7 +105,7 @@ pipeline {
              }
           }
        }
-         /*stage('test image') {
+         stage('test image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -118,8 +117,8 @@ pipeline {
                       '''
                 }
             }
-        }*/
-         stage('Package DEV') {
+        }
+         /*stage('Package DEV') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -235,7 +234,7 @@ pipeline {
               '''
             }
         }
-        /*stage('Argocd') {
+        stage('Argocd') {
             steps {
                 sh "Wait for argocd"
             }
@@ -244,12 +243,22 @@ pipeline {
 
  }
  post {
-    always {
-       script {
-         /* Use slackNotifier.groovy from shared library and provide current build result as parameter */
-         clean
-         slackNotifier currentBuild.result
-     }
+   
+   success {
+      slackSend (channel: '##develop-alert', color: 'good', message: "SUCCESSFUL: Application battleboat  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
-    }  
+
+ 
+    unstable {
+      slackSend (channel: '#develop-alert', color: 'warning', message: "UNSTABLE: Application battleboat Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    }
+
+    failure {
+      slackSend (channel: '#develop-alert', color: '#FF0000', message: "FAILURE: Application battleboat Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    }
+   
+    cleanup {
+      deleteDir()
+    }
+}
 }
