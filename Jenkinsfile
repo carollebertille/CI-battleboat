@@ -118,6 +118,21 @@ pipeline {
                 }
             }
         }
+        stage('Clean container') {
+          agent any
+            when{  
+            expression {
+              params.Environment == 'DEV' }
+              }
+          steps {
+             script {
+               sh '''
+                   docker stop $IMAGE_NAME
+                   docker rm $IMAGE_NAME
+               '''
+             }
+          }
+      }
          /*stage('Package DEV') {
            when{  
             expression {
