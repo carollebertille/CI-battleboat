@@ -159,12 +159,10 @@ pipeline {
               }
             steps {
               sh '''
-                sh 'rm -rf deployment-battleboat'
+                sh 'sudo rm -rf deployment-battleboat'
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                sh 'ls -l ./overlays/dev'
-                sh 'ls -l ./overlays/dev/battleboat'
-                sh 'cd ./overlays/dev/battleboat && pwd'
+                sh 'cd deployment-battleboat/overlays/dev/battleboat && pwd'
                 cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag
                 git commit -am 'Publish new dev release' && git push
               '''
