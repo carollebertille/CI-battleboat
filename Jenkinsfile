@@ -159,7 +159,7 @@ pipeline {
               }
             steps {
               sh '''
-                sh 'deployment-battleboat'
+                sh 'rm -rf deployment-battleboat'
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
                 sh 'ls -l ./overlays/dev'
