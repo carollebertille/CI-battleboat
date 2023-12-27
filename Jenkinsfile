@@ -66,6 +66,10 @@ pipeline {
         }
         /*stage('Scan Image with  SNYK') {
             agent any
+            when{  
+            expression {
+              params.Environment == 'DEV' }
+              }
             environment{
                 SNYK_TOKEN = credentials('snyktoken')
             }
@@ -111,7 +115,7 @@ pipeline {
                 script {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-1
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-${BUILD_NUMBER}
                         
                       '''
                 }
@@ -126,7 +130,7 @@ pipeline {
                 script {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-2
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-${BUILD-NUMBER}
                         
                         
                       '''
