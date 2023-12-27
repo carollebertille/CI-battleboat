@@ -24,12 +24,16 @@ pipeline {
     }
     stages {
         stage('Check Syntax - Dockerfile'){
-        docker.image("hadolint/hadolint").inside("-v ${WORKSPACE}:${WORKSPACE}/project") { c ->
-          echo 'DockerFile'
- 	        sh "ls ${WORKSPACE}/project "
-          sh "hadolint ${WORKSPACE}/project/Dockerfile"
+          steps{
+             sh '''
+             docker.image("hadolint/hadolint").inside("-v ${WORKSPACE}:${WORKSPACE}/project") { c ->
+              echo 'DockerFile'
+ 	            ls ${WORKSPACE}/project
+             hadolint ${WORKSPACE}/project/Dockerfile
+            '''
         }
       }
+    }
         /*stage('SonarQube analysis') {
            when{  
             expression {
