@@ -115,7 +115,7 @@ pipeline {
                 script {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-${BUILD_NUMBER}
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-1
                         
                       '''
                 }
