@@ -93,6 +93,19 @@ pipeline {
                 }
             }
         }
+        /*stage('Package DEV') {
+           when{  
+            expression {
+              params.Environment == 'DEV' }
+              }
+            steps {
+                script {
+                    sh '''
+                        curl http://localhost:8181 
+                      '''
+                }
+            }
+        }*/
          stage('Package DEV') {
            when{  
             expression {
@@ -115,7 +128,7 @@ pipeline {
                 script {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-1
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                         
                       '''
                 }
@@ -129,8 +142,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-${BUILD-NUMBER}
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                         
                         
                       '''
@@ -146,7 +159,7 @@ pipeline {
                 script {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:$tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                         
                       '''
                 }
@@ -162,7 +175,7 @@ pipeline {
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
                 rm -rf deployment-battleboat  || true
                 git clone git@github.com:carollebertille/deployment-battleboat.git
-                cd deployment-battleboat/overlays/dev/battleboat kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$tag
+                cd deployment-battleboat/overlays/dev/battleboat kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
@@ -176,7 +189,7 @@ pipeline {
                 sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
@@ -190,7 +203,7 @@ pipeline {
                 sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
@@ -204,7 +217,7 @@ pipeline {
                 sh '''
                 git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:$prod_tag
+                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
