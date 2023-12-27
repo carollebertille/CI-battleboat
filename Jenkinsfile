@@ -28,7 +28,7 @@ pipeline {
              script {
 
                     sh '''
-                        docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint sh -c '
+                        docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint bash -c '
                             echo "DockerFile"
                             ls ${WORKSPACE}/project
                             hadolint ${WORKSPACE}/project/Dockerfile
