@@ -93,7 +93,20 @@ pipeline {
                 }
             }
         }
-         /*stage('Package DEV') {
+         stage('Run container based on builded image') {
+          agent any
+          steps {
+            script {
+              sh '''
+                  echo "Cleaning existing container if exist"
+                  docker ps -a | grep -i $IMAGE_NAME && docker rm -f $IMAGE_NAME
+                  docker run --name $IMAGE_NAME -d -p 87:80  ${DOCKERHUB_ID}/$IMAGE_NAME:$IMAGE_TAG
+                  sleep 5
+              '''
+             }
+          }
+       }
+         /*stage('test image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -101,7 +114,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        curl http://localhost:8181 
+                        curl -v 172.17.0.1:87 | grep -i "Stats"
                       '''
                 }
             }
