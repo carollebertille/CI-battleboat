@@ -38,8 +38,10 @@ pipeline {
              }
              steps {
                    script {
-                       withSonarQubeEnv('SonarCloud') {
-                          sh "${env.SCANNER_HOME}/bin/sonar-scanner"
+                    // Set up SonarCloud environment
+                    withSonarQubeEnv('SonarCloud') {
+                        // Run SonarScanner
+                        sh 'sonar-scanner'
                        }
                    }
             }
