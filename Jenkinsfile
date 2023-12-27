@@ -25,15 +25,18 @@ pipeline {
     stages {
         stage('Check Syntax - Dockerfile'){
           steps{
-             sh '''
-               docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint sh -c '
-                echo "DockerFile"
-                ls ${WORKSPACE}/project
-                hadolint ${WORKSPACE}/project/Dockerfile
-                '
-            '''
+             script {
+
+                    sh """
+                        docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint sh -c '
+                            echo "DockerFile"
+                            ls ${WORKSPACE}/project
+                            hadolint ${WORKSPACE}/project/Dockerfile
+                        '
+                    """
+               }
+            }
           }
-      }
     
         /*stage('SonarQube analysis') {
            when{  
