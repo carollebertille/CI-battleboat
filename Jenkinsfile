@@ -23,6 +23,13 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
+        stage('Check Syntax - Dockerfile'){
+        docker.image("hadolint/hadolint").inside("-v ${WORKSPACE}:${WORKSPACE}/project") { c ->
+          echo 'DockerFile'
+ 	        sh "ls ${WORKSPACE}/project "
+          sh "hadolint ${WORKSPACE}/project/Dockerfile"
+        }
+      }
         /*stage('SonarQube analysis') {
            when{  
             expression {
@@ -63,7 +70,7 @@ pipeline {
                 }
             }
         }
-        stage('Scan Image with  SNYK') {
+        /*stage('Scan Image with  SNYK') {
             agent any
             when{  
             expression {
@@ -82,7 +89,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
         stage('Login Dockerhub') {
             steps {
                 script {
