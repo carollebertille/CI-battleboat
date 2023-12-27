@@ -35,24 +35,15 @@ pipeline {
                  }
              }
                environment {
-             CI = 'true'
-                //  scannerHome = tool 'Sonar'
-              SCANNER_HOME = '/opt/sonar-scanner'
-              
-              SONAR_HOST_URL = 'https://sonarcloud.io'
-             }
-             steps {
-                   script {
-        // Set up SonarCloud environment withCredentials
-        withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
-            withSonarQubeEnv('SonarCloud') {
-                // Run SonarScanner using ${env.SCANNER_HOME}
-                sh "${env.SCANNER_HOME}/bin/sonar-scanner"
+                 CI = 'true'
+                  scannerHome='/opt/sonar-scanner'
             }
-                   }
+             steps{
+               withSonarQubeEnv('Sonar') {
+                 sh "${scannerHome}/bin/sonar-scanner"
+                }
+              }
             }
-        }
-        }
 
         stage("Quality Gate") {
             steps {
