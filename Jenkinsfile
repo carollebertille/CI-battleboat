@@ -26,10 +26,11 @@ pipeline {
         stage('Check Syntax - Dockerfile'){
           steps{
              sh '''
-               docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint sh -c "
-                echo 'DockerFile'
+               docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint sh -c '
+                echo "DockerFile"
                 ls ${WORKSPACE}/project
                 hadolint ${WORKSPACE}/project/Dockerfile
+                '
             '''
           }
       }
