@@ -26,10 +26,8 @@ pipeline {
         stage('Check Syntax - Dockerfile'){
           steps{
              script {
-
                     sh '''
                        docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint hadolint ${WORKSPACE}/project/Dockerfile
-                            '
                     '''
                }
             }
