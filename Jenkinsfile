@@ -32,14 +32,14 @@ pipeline {
                environment {
              CI = 'true'
                 //  scannerHome = tool 'Sonar'
-              scannerHome='/opt/sonar-scanner'
+              SCANNER_HOME = '/opt/sonar-scanner'
               SONAR_TOKEN = credentials('sonartoken')
               SONAR_HOST_URL = 'https://sonarcloud.io'
              }
              steps {
                    script {
                        withSonarQubeEnv('SonarCloud') {
-                          sh "${scannerHome}/bin/sonar-scanner"
+                          sh "${env.SCANNER_HOME}/bin/sonar-scanner"
                        }
                    }
             }
