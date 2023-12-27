@@ -29,6 +29,11 @@ pipeline {
             expression {
               params.Environment == 'DEV' }
               }
+               agent {
+                 docker {
+                 image 'edennolan2021/sonar-scanner-cli:4.8'
+                 }
+             }
                environment {
              CI = 'true'
                 //  scannerHome = tool 'Sonar'
