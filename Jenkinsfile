@@ -33,6 +33,8 @@ pipeline {
              CI = 'true'
                 //  scannerHome = tool 'Sonar'
               scannerHome='/opt/sonar-scanner'
+              SONAR_TOKEN = credentials('sonartoken')
+              SONAR_HOST_URL = 'https://sonarcloud.io'
              }
              steps {
                    script {
