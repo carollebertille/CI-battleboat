@@ -14,25 +14,9 @@ pipeline {
           )
         string(
             defaultValue: '0.0.0',
-            name: 'dev_tag',
+            name: 'tag',
             description: '''Please enter dev image tag to be used''',
          )
-
-       string(
-           defaultValue: '0.0.0',
-           name: 'qa_tag',
-           description: '''Please enter qa image tag to be used''',
-          )
-       string(
-           defaultValue: '0.0.0',
-           name: sandbox_tag',
-           description: '''Please enter sandbox image tag to be used''',
-          )
-      string(
-           defaultValue: '0.0.0',
-           name: 'prod_tag',
-           description: '''Please enter prod image tag to be used''',
-          )
     }
     environment {
         IMAGE_NAME = "battleboat"
@@ -40,7 +24,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
-        /*stage('SonarQube analysis') {
+        stage('SonarQube analysis') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -64,7 +48,7 @@ pipeline {
                 timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true }
             }
-        }*/
+        }
         stage('Build image') {
            when{  
             expression {
@@ -73,7 +57,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:$dev_tag .
+                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:$tag .
                     '''
                 }
             }
@@ -111,7 +95,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$tag
                       '''
                 }
             }
@@ -124,8 +108,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$dev_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-1
                         
                       '''
                 }
@@ -140,7 +124,7 @@ pipeline {
                 script {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$qa_tag $DOCKERHUB_ID/$IMAGE_NAME:$tag-2
                         
                         
                       '''
