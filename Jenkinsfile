@@ -137,7 +137,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Pull and tag image PROD') {
+        stage('Pull and tag image PROD') {
            when{  
             expression {
               params.Environment == 'PROD' }
@@ -145,8 +145,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag
-                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$sandbox_tag $DOCKERHUB_ID/$IMAGE_NAME:$prod_tag
+                        docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
+                        docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:$tag
                         
                       '''
                 }
@@ -208,7 +208,7 @@ pipeline {
               '''
             }
         }
-        stage('Argocd') {
+        /*stage('Argocd') {
             steps {
                 sh "Wait for argocd"
             }
