@@ -31,7 +31,7 @@ pipeline {
               }
                agent {
                  docker {
-                 image 'edennolan2021/sonar-scanner-cli:4.8'
+                 image 'sonarsource/sonar-scanner-cli:4.8'
                  }
              }
                environment {
