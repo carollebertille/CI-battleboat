@@ -188,7 +188,7 @@ pipeline {
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
                 rm -rf deployment-battleboat  || true
                 git clone git@github.com:carollebertille/deployment-battleboat.git
-                cd deployment-battleboat/overlays/dev/battleboat kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                cd deployment-battleboat/overlays/dev/battleboat  && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
