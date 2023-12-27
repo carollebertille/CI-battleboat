@@ -27,13 +27,13 @@ pipeline {
           steps{
              script {
 
-                    sh """
+                    sh '''
                         docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint sh -c '
                             echo "DockerFile"
                             ls ${WORKSPACE}/project
                             hadolint ${WORKSPACE}/project/Dockerfile
-                        '
-                    """
+                            '
+                    '''
                }
             }
           }
