@@ -16,10 +16,12 @@ pipeline {
             name: 'tag',
             description: '''Please enter dev image tag to be used''',
          )
+
     }
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
+        EXPOSE_PORT="88"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
@@ -68,7 +70,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:$tag .
+                     docker build -t ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}-$tag .
                     '''
                 }
             }
@@ -109,7 +111,7 @@ pipeline {
               sh '''
                   echo "Cleaning existing container if exist"
                   docker ps -a | grep -i $IMAGE_NAME && docker rm -f $IMAGE_NAME
-                  docker run --name $IMAGE_NAME -d -p 87:80  ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                  docker run --name $IMAGE_NAME -d -p $EXPORT_PORT:80  ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                   sleep 5
               '''
              }
@@ -123,7 +125,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        curl -v 172.17.0.1:87 | grep -i "Stats"
+                        curl -v 172.17.0.1:$EXPORT_PORT | grep -i "Stats"
                       '''
                 }
             }
