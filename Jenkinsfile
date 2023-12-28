@@ -1,3 +1,4 @@
+@Library('jenkins-shared-library')_
 pipeline {
     agent any 
     options {
@@ -273,22 +274,10 @@ pipeline {
 
  }
  post {
-   
-   success {
-      slackSend (channel: '##develop-alert', color: 'good', message: "SUCCESSFUL: Application battleboat  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+     always {
+       script {
+         // Use slackNotifier.groovy from shared library and provide current build result as parameter 
+        slacknotifier currentBuild.result
+     }
     }
-
- 
-    unstable {
-      slackSend (channel: '#develop-alert', color: 'warning', message: "UNSTABLE: Application battleboat Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-    }
-
-    failure {
-      slackSend (channel: '#develop-alert', color: '#FF0000', message: "FAILURE: Application battleboat Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-    }
-   
-    cleanup {
-      deleteDir()
-    }
-}
 }
