@@ -87,7 +87,7 @@ pipeline {
                     sh '''
                     echo "Starting Image scan $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER} ..." 
                     echo There is Scan result : 
-                    SCAN_RESULT=$(docker run --rm -e SNYK_TOKEN=$SNYK_TOKEN -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/app snyk/snyk:docker snyk test --docker $DOCKERHUB_ID/$IMAGE_NAME:$tag --json ||  if [ $? -gt "1" ];then echo -e "Warning, you must see scan result \n" ;  false; elif [ $? -eq "0" ]; then   echo "PASS : Nothing to Do"; elif [ $? -eq "1" ]; then   echo "Warning, passing with something to do";  else false; fi)
+                    SCAN_RESULT=$(docker run --rm -e SNYK_TOKEN=$SNYK_TOKEN -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/app snyk/snyk:docker snyk test --docker $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag --json ||  if [ $? -gt "1" ];then echo -e "Warning, you must see scan result \n" ;  false; elif [ $? -eq "0" ]; then   echo "PASS : Nothing to Do"; elif [ $? -eq "1" ]; then   echo "Warning, passing with something to do";  else false; fi)
                     echo "Scan ended"
                     '''
                 }
@@ -109,7 +109,7 @@ pipeline {
               sh '''
                   echo "Cleaning existing container if exist"
                   docker ps -a | grep -i $IMAGE_NAME && docker rm -f $IMAGE_NAME
-                  docker run --name $IMAGE_NAME -d -p 87:80  ${DOCKERHUB_ID}/$IMAGE_NAME:$tag
+                  docker run --name $IMAGE_NAME -d -p 87:80  ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                   sleep 5
               '''
              }
@@ -151,7 +151,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker push $DOCKERHUB_ID/$IMAGE_NAME:$tag
+                        docker push $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                       '''
                 }
             }
@@ -224,9 +224,10 @@ pipeline {
               }
             steps {
                 sh '''
-                git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                rm -rf deployment-battleboat  || true
+                git clone git@github.com:carollebertille/deployment-battleboat.git
+                cd deployment-battleboat/overlays/dev/battleboat  && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                 git commit -am 'Publish new dev release' && git push
               '''
             }
