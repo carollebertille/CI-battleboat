@@ -227,8 +227,8 @@ pipeline {
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
                 rm -rf deployment-battleboat  || true
                 git clone git@github.com:carollebertille/deployment-battleboat.git
-                cd deployment-battleboat/overlays/dev/battleboat  && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
-                git commit -am 'Publish new dev release' && git push
+                cd deployment-battleboat/overlays/qa/battleboat  && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                git commit -am 'Publish new qa release' && git push
               '''
             }
         } 
@@ -239,10 +239,11 @@ pipeline {
               }
             steps {
                 sh '''
+                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
+                rm -rf deployment-battleboat  || true
                 git clone git@github.com:carollebertille/deployment-battleboat.git
-                git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
-                git commit -am 'Publish new dev release' && git push
+                cd deployment-battleboat/overlays/sandbox/battleboat  && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                git commit -am 'Publish new sandbox release' && git push
               '''
             }
         }
@@ -253,10 +254,11 @@ pipeline {
               }
             steps {
                 sh '''
-                git clone git@github.com:carollebertille/deployment-battleboat.git
                 git config --global user.email 'carolle.matchum@yahoo.com' && git config --global user.name 'carollebertille'
-                cd ./overlays/dev/battleboat && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
-                git commit -am 'Publish new dev release' && git push
+                rm -rf deployment-battleboat  || true
+                git clone git@github.com:carollebertille/deployment-battleboat.git
+                cd deployment-battleboat/overlays/prod/battleboat  && kustomize edit set image $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                git commit -am 'Publish new prod release' && git push
               '''
             }
         }
