@@ -25,7 +25,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
-        stage('Check Syntax - Dockerfile'){
+        /*stage('Check Syntax - Dockerfile'){
           steps{
              script {
                     sh '''
@@ -33,9 +33,9 @@ pipeline {
                     '''
                }
             }
-          }
+          }*/
     
-        /*stage('SonarQube analysis') {
+        stage('SonarQube analysis') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -61,8 +61,8 @@ pipeline {
                 timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true }
             }
-        }*/
-        stage('Build image') {
+        }
+        /*stage('Build image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -75,7 +75,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Scan Image with  SNYK') {
+        stage('Scan Image with  SNYK') {
             agent any
             when{  
             expression {
@@ -94,7 +94,7 @@ pipeline {
                     '''
                 }
             }
-        }*/
+        }
          stage('Run container based on build image') {
           agent any
           steps {
@@ -144,7 +144,7 @@ pipeline {
                       '''
                 }
             }
-         }
+         }*/
          /*stage('Push image to Dockerhub') {
            when{  
             expression {
