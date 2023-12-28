@@ -280,4 +280,5 @@ pipeline {
         slacknotifier currentBuild.result
      }
     }
+ }
 }
