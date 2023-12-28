@@ -43,7 +43,7 @@ pipeline {
               }
                agent {
                  docker {
-                 image 'sonarsource/sonar-scanner-cli:5'
+                 image 'sonarsource/sonar-scanner-cli:latest'
                  }
              }
                environment {
