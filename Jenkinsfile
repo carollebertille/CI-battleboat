@@ -95,16 +95,7 @@ pipeline {
                 }
             }
         }*/
-        stage('Login Dockerhub') {
-            steps {
-                script {
-                    sh '''
-                        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_ID --password-stdin
-                      '''
-                }
-            }
-        }
-         stage('Run container based on builded image') {
+         stage('Run container based on build image') {
           agent any
           steps {
             script {
@@ -144,8 +135,17 @@ pipeline {
                '''
              }
           }
-      }
-         /*stage('Push image') {
+        }
+        stage('Login Dockerhub') {
+            steps {
+                script {
+                    sh '''
+                        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_ID --password-stdin
+                      '''
+                }
+            }
+         }
+         /*stage('Push image to Dockerhub') {
            when{  
             expression {
               params.Environment == 'DEV' }
