@@ -41,17 +41,17 @@ pipeline {
             expression {
               params.Environment == 'DEV' }
               }
-               agent {
+               /*agent {
                  docker {
                  image 'sonarsource/sonar-scanner-cli:4.8'
                  }
-             }
+             }*/
                environment {
                  CI = 'true'
                   scannerHome='/opt/sonar-scanner'
             }
              steps{
-               withSonarQubeEnv('SonarCloud') {
+               withSonarQubeEnv('Sonar') {
                  sh "${scannerHome}/bin/sonar-scanner"
                 }
               }
