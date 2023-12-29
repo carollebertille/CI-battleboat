@@ -103,7 +103,7 @@ pipeline {
               sh '''
                   echo "Cleaning existing container if exist"
                   docker ps -a | grep -i $IMAGE_NAME && docker rm -f $IMAGE_NAME
-                  docker run --name $IMAGE_NAME -d -p $EXPORT_PORT:80  ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}-$tag
+                  docker run --name $IMAGE_NAME -d -p $EXPOSE_PORT:80  ${DOCKERHUB_ID}/$IMAGE_NAME:${BUILD_NUMBER}-$tag
                   sleep 5
               '''
              }
@@ -117,7 +117,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        curl -v 172.17.0.1:$EXPORT_PORT | grep -i "Stats"
+                        curl -v 172.17.0.1:$EXPOSE_PORT | grep -i "Stats"
                       '''
                 }
             }
