@@ -25,8 +25,8 @@ pipeline {
         EXPOSE_PORT="88"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
-     /*stages {
-        stage('Check Syntax - Dockerfile'){
+     stages {
+        /*stage('Check Syntax - Dockerfile'){
           steps{
              script {
                     sh '''
@@ -145,8 +145,8 @@ pipeline {
                       '''
                 }
             }
-         }*/
-         /*stage('Push image to Dockerhub') {
+         }
+         stage('Push image to Dockerhub') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -269,7 +269,7 @@ pipeline {
             steps {
                 sh "Wait for argocd"
             }
-        }*/
+        }
         
 
  }
