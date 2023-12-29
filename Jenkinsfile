@@ -25,7 +25,7 @@ pipeline {
         EXPOSE_PORT="88"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
-    stages {
+     /*stages {
         stage('Check Syntax - Dockerfile'){
           steps{
              script {
@@ -62,8 +62,8 @@ pipeline {
                 timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true }
             }
-        }
-        /*stage('Build image') {
+        }*/
+        stage('Build image') {
            when{  
             expression {
               params.Environment == 'DEV' }
