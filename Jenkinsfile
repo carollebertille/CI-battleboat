@@ -34,7 +34,7 @@ pipeline {
                     '''
                }
             }
-          }
+          }*/
     
         stage('SonarQube analysis') {
            when{  
@@ -62,8 +62,8 @@ pipeline {
                 timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true }
             }
-        }*/
-        stage('Build image') {
+        }
+        /*stage('Build image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -269,7 +269,7 @@ pipeline {
             steps {
                 sh "Wait for argocd"
             }
-        }
+        }*/
         
 
  }
