@@ -54,7 +54,7 @@ jobs:
           sleep 5
 
       - name: Test image.
-        run: curl "http://localhost:${EXPORT_PORT}" | grep -i "Dimension"
+        run: curl "http://localhost:${EXPORT_PORT}" | grep -i "stats"
 
       - name: Clean Container
         run: |
