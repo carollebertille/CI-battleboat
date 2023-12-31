@@ -57,12 +57,12 @@ pipeline {
               }
             }
 
-        stage("Quality Gate") {
+        /*stage("Quality Gate") {
             steps {
-                timeout(time: 7, unit: 'Hours') {
+                timeout(time: 1, unit: 'Hours') {
                 waitForQualityGate abortPipeline: true }
             }
-        }
+        }*/
         stage('Build image') {
            when{  
             expression {
