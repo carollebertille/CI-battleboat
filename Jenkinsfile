@@ -59,11 +59,11 @@ pipeline {
 
         stage("Quality Gate") {
             steps {
-                timeout(time: 1, unit: 'HOURS') {
+                timeout(time: 7, unit: 'min') {
                 waitForQualityGate abortPipeline: true }
             }
         }
-        /*stage('Build image') {
+        stage('Build image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -76,7 +76,7 @@ pipeline {
                 }
             }
         }
-        stage('Scan Image with  SNYK') {
+        /*stage('Scan Image with  SNYK') {
             agent any
             when{  
             expression {
@@ -95,7 +95,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
          stage('Run container based on build image') {
           agent any
           steps {
@@ -220,7 +220,7 @@ pipeline {
               '''
             }
         }
-       stage('Update QA manifest') {
+       /*stage('Update QA manifest') {
           when{  
             expression {
               params.Environment == 'QA' }
@@ -264,12 +264,12 @@ pipeline {
                 git commit -am 'Publish new prod release' && git push
               '''
             }
-        }
+        }*/
         stage('Argocd') {
             steps {
                 sh "Wait for argocd"
             }
-        }*/
+        }
         
 
  }
