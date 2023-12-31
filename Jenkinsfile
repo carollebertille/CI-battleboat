@@ -267,7 +267,7 @@ pipeline {
         }*/
         stage('Argocd') {
             steps {
-                sh "Wait for argocd"
+                sh "wait for argocd"
             }
         }
         
