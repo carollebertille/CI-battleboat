@@ -35,7 +35,7 @@ SonarQube is an open-source platform for continuous inspection of code quality
 ## 4. **Description of tools**
 - Terraform infrastructure as code tool used to automate infrastructure in cloud provider. it will help to prvision 3 servers(jenkins,nodebuild and sonarqube) and EKS
 - Jenkins is an open-source automation server that facilitates continuous integration (CI) and continuous delivery (CD) of software projects. It enables developers to automate various stages of the software development lifecycle, including building, testing, and deploying applications
-- Docker to containerize hello world application
+- Docker is an open-source platform that automates the deployment, scaling, and management of applications in lightweight, portable containers.
 - Dockerhub: registry to store docker imges
 - Snyk is a popular developer-first security platform that helps developers find and fix vulnerabilities in their open-source dependencies and container 
   images.Here are some key
