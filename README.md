@@ -12,9 +12,11 @@
        * AWS cloud: EC2, EKS                                     
        * Source Code Management: Github
        * Build Server: Jenkins 
+       * Kustomize
        * Security: Haolint, Sonarqube and Snyk                                         
        * Notification: Slack
-       * Continuous delivery: ArgoCD                                        
+       * Continuous delivery: ArgoCD  
+       
        
 ## 3. **Infrastructure**
 We wanted to reproduce an enterprise-type infrastructure with 3 servers and EKS
