@@ -1,7 +1,7 @@
 Deployment of Bttleboat application
-Context
+#### Context
 Deployment of Battleboat application through the CI/CD Pipeline with security measures
-Tools
+#### Tools
 Cloud: AWS, (EC2, EKS)
 Container Engine: Docker
 Source Code Management: Github
