@@ -53,3 +53,9 @@ SonarQube is an open-source platform for continuous inspection of code quality
 
 Automate infrastructure with terraform (Jenkins and sonarqube server, EKS) the code is here https://github.com/.git
 
+
+### Keywords
+
+```
+Docker, Git, Github, Shared library, Jenkins, AWS, Dockerhub, Snyk, Slack, Pull Request, Merge Request, Argocd, Sonarqube, EKS cluster
+
