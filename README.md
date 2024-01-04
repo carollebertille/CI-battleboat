@@ -1,15 +1,22 @@
-Deployment of Bttleboat application
-#### Context
-Deployment of Battleboat application through the CI/CD Pipeline with security measures
-#### Tools
- #### .Cloud: AWS, (EC2, EKS)
- ##### .Container Engine: Docker
-Source Code Management: Github
-Scheduling: Jenkins
-Security: Haolint, Sonarqube and Snyk
-Notification: Slack
-Continuous delivery: ArgoCD
-#### Infrastructure
+# Deployment of Battleboat application through the CI/CD Pipeline with security measures
+
+## 1. **Context**
+   
+   * Deployment of battleboat application through the CI / CD
+   
+   * Implementation of security measures
+   
+   * Notification system
+
+## 2. **Tools**
+       * AWS cloud: EC2, EKS                                     
+       * Source Code Management: Github
+       * Build Server: Jenkins 
+       * Security: Haolint, Sonarqube and Snyk                                         
+       * Notification: Slack
+       * Continuous delivery: ArgoCD                                        
+       
+## 3. **Infrastructure**
 We wanted to reproduce an enterprise-type infrastructure with 3 servers and EKS
 
 A master server Jenkins scheduling build jobs, monitor the slave
