@@ -61,3 +61,14 @@ Automate infrastructure with terraform (Jenkins and sonarqube server, EKS) the c
 ```
 Docker, Git, Github, Shared library, Jenkins, AWS, Dockerhub, Snyk, Slack, Pull Request, Merge Request, Argocd, Sonarqube, EKS cluster
 
+
+## 4. **Workflow**
+
+CI/CD pipeleine, we have 4 environments(dev, qa, prepro,pro) and each environment have the pipeline
+
+In order to fully understand the workfow, let's take the following scenario:
+
+- Developer makes a modification to the code from their workstation and pushes it on github
+
+- Thanks to the webhook, the modification is received on the jenkins server and the build of the project can begin
+Syntax checks will be done (unit tests) by haodolint on Dockerfile
