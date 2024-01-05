@@ -39,7 +39,7 @@ jobs:
       - name: Run Snyk Scan
         run: |
           SCAN_RESULT=$(
-            docker run --rm -e SNYK_TOKEN=$SNYK_TOKEN -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/app snyk/snyk:docker snyk test --docker $DOCKERHUB_ID/$IMAGE_NAME:${GITHUB_SHA} --json ||  
+            docker run --rm -e SNYK_TOKEN=$SNYK_TOKEN -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/app snyk/snyk:docker snyk test --docker ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${GITHUB_SHA} --json ||  
             if [ $? -gt "1" ]; then
               echo -e "Warning, you must see scan result \n"
               false
