@@ -271,7 +271,7 @@ pipeline {
           steps{
              script {
                     sh '''
-                       docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/xss.attack
+                       docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/curl.attack
                     '''
                }
             }
