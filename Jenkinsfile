@@ -23,7 +23,7 @@ pipeline {
     environment {
         IMAGE_NAME = "battleboat"
         DOCKERHUB_ID = "edennolan2021"
-        EXPOSE_PORT="88"
+        EXPOSE_PORT="8181"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
      stages {
@@ -36,6 +36,8 @@ pipeline {
                }
             }
           }*/
+
+          // docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/xss.attack
     
         stage('SonarQube analysis') {
            when{  
@@ -266,6 +268,7 @@ pipeline {
               '''
             }
         }*/
+        
         stage('Argocd') {
             steps {
                 sh "wait for argocd"
