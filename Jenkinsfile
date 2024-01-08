@@ -1,4 +1,4 @@
-@Library('jenkins-shared-library')_
+h@Library('jenkins-shared-library')_
 pipeline {
     agent any
     options {
@@ -270,7 +270,7 @@ pipeline {
         
         stage('Argocd') {
             steps {
-                sh "wait for argocd"
+                sh echo "wait for argocd"
             }
         }
         
