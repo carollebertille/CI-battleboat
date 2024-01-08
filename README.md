@@ -80,9 +80,3 @@ In order to fully understand the workfow, let's take the following scenario:
 
 ```
 Docker, Git, Github, Shared library, Jenkins, Virtualbox, Dockerhub, Snyk, Slack, Pull Request, Merge Request, Argocd, Sonarqube, Kubeadm
-
-
-
-
-
-
