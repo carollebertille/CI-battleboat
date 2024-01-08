@@ -267,13 +267,23 @@ pipeline {
               '''
             }
         }*/
-        stage('Find xss vulnerability'){
+       /* stage('Find xss vulnerability'){
           steps{
              script {
                     sh '''
                        docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/curl.attack
                     '''
                }
+            }
+          }*/
+         stage('Find xss vulnerability') {
+            agent { docker { 
+                  image 'gauntlt/gauntlt' 
+                  args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
+                  } }
+            steps {
+                sh 'gauntlt --version'
+                sh 'gauntlt ${WORKSPACE}/attack/attack/xss.attack'
             }
           }
         
