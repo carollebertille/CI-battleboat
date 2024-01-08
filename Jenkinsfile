@@ -267,6 +267,15 @@ pipeline {
               '''
             }
         }*/
+          /*stage('Find xss vulnerability'){
+          steps{
+             script {
+                    sh '''
+                       docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/xss.attack
+                    '''
+               }
+            }
+          }*/
         
         stage('Argocd') {
             steps {
