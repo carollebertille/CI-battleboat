@@ -4,7 +4,7 @@ Background:
   Given "curl" is installed
   And the following profile:
     | name     | value      |
-    | hostname |http://52.91.117.31:8181  |
+    | hostname |http://192.168.1.92:8181  |
 
 Scenario: Verify a 301 is received from a curl
   When I launch a "curl" attack with:
