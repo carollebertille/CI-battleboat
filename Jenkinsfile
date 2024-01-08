@@ -1,5 +1,6 @@
 @Library('jenkins-shared-library')_
 pipeline {
+    agent any
     options {
         buildDiscarder(logRotator(numToKeepStr:'2'))
         disableConcurrentBuilds()
