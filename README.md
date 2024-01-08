@@ -63,3 +63,25 @@ Docker, Git, Github, Shared library, Jenkins, Virtualbox, Dockerhub, Snyk, Slack
 
 
 
+
+
+
+## 4. **Workflow**
+
+CI/CD pipeleine, we have 4 environments(dev, qa, prepro,pro) and each environment have the pipeline
+
+In order to fully understand the workfow, let's take the following scenario:
+
+- Developer makes a modification to the code from their workstation and pushes it on github
+
+- Thanks to the webhook, the modification is received on the jenkins server and the build of the project can begin
+
+- jenkins use the docker agent to launch hadolint container to check Dockerfile syntax and the analyzse result sent back to jenkins
+
+- jenkins use the docker agent to launch sonarqube scannercli container to analyse the code and the scan result sent back to jenkins
+
+- Jenkins sent the build report to sonarqube server to be compared with quality gate
+
+- sonarqube sent the code analysis result back to jenkins
+
+- jenkins read dockerfile to build, scan with snyk container
