@@ -37,9 +37,9 @@ pipeline {
             }
           }*/
 
-          // docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/xss.attack
+          
     
-        stage('SonarQube analysis') {
+        /*stage('SonarQube analysis') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -60,7 +60,7 @@ pipeline {
               }
             }
 
-        /*stage("Quality Gate") {
+          stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'Hours') {
                 waitForQualityGate abortPipeline: true }
@@ -125,7 +125,7 @@ pipeline {
                 }
             }
         }
-        stage('Clean container') {
+       /* stage('Clean container') {
           agent any
             when{  
             expression {
@@ -222,7 +222,7 @@ pipeline {
                 git commit -am 'Publish new dev release' && git push
               '''
             }
-        }
+        }*/
        /*stage('Update QA manifest') {
           when{  
             expression {
