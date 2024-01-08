@@ -268,13 +268,13 @@ pipeline {
             }
         }*/
         
-        stage('Argocd') {
+       ?* stage('Argocd') {
             steps {
                 script {
                  echo "wait for argocd"
                 }
             }
-        }
+        }*/
         
 
  }
