@@ -1,7 +1,5 @@
 @Library('jenkins-shared-library')_
 pipeline {
-    agent {
-        label ('node')
     options {
         buildDiscarder(logRotator(numToKeepStr:'2'))
         disableConcurrentBuilds()
@@ -285,4 +283,4 @@ pipeline {
     }
  }
 }
-}
+
