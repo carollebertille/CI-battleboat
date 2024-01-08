@@ -56,16 +56,6 @@ SonarQube is an open-source platform for continuous inspection of code quality
 - ArgoCD: https://argo-cd.readthedocs.io/en/stable/getting_started/
 - Kustomize: https://kubectl.docs.kubernetes.io/installation/kustomize/
 
-### Keywords
-
-```
-Docker, Git, Github, Shared library, Jenkins, Virtualbox, Dockerhub, Snyk, Slack, Pull Request, Merge Request, Argocd, Sonarqube, Kubeadm
-
-
-
-
-
-
 ## 4. **Workflow**
 
 CI/CD pipeleine, we have 4 environments(dev, qa, prepro,pro) and each environment have the pipeline
@@ -85,3 +75,14 @@ In order to fully understand the workfow, let's take the following scenario:
 - sonarqube sent the code analysis result back to jenkins
 
 - jenkins read dockerfile to build, scan with snyk container
+
+### Keywords
+
+```
+Docker, Git, Github, Shared library, Jenkins, Virtualbox, Dockerhub, Snyk, Slack, Pull Request, Merge Request, Argocd, Sonarqube, Kubeadm
+
+
+
+
+
+
