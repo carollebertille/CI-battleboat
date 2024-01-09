@@ -35,9 +35,6 @@ pipeline {
                }
             }
           }*/
-
-          
-    
         /*stage('SonarQube analysis') {
            when{  
             expression {
@@ -186,8 +183,6 @@ pipeline {
                     sh '''
                         docker pull $DOCKERHUB_ID/$IMAGE_NAME:$tag
                         docker tag $DOCKERHUB_ID/$IMAGE_NAME:$tag $DOCKERHUB_ID/$IMAGE_NAME:${BUILD_NUMBER}-$tag
-                        
-                        
                       '''
                 }
             }
@@ -276,7 +271,15 @@ pipeline {
                }
             }
           }*/
-         stage('Find xss vulnerability') {
+         
+        stage('Argocd') {
+            steps {
+                script {
+                 echo "wait for argocd"
+                }
+            }
+        }
+        stage('Find xss vulnerability') {
             agent { docker { 
                   image 'gauntlt/gauntlt' 
                   args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
@@ -286,15 +289,26 @@ pipeline {
                 sh 'gauntlt ${WORKSPACE}/attack/attack/xss.attack'
             }
           }
-        
-        stage('Argocd') {
+         stage('Find cookies vulnerability') {
+            agent { docker { 
+                  image 'gauntlt/gauntlt' 
+                  args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
+                  } }
             steps {
-                script {
-                 echo "wait for argocd"
-                }
+                sh 'gauntlt --version'
+                sh 'gauntlt ${WORKSPACE}/attack/attack/cookies.attack'
             }
-        }
-        
+          }
+         stage('Find curl vulnerability') {
+            agent { docker { 
+                  image 'gauntlt/gauntlt' 
+                  args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
+                  } }
+            steps {
+                sh 'gauntlt --version'
+                sh 'gauntlt ${WORKSPACE}/attack/attack/curl.attack'
+            }
+          }
 
  }
  post {
