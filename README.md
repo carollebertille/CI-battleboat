@@ -12,6 +12,7 @@
        * virtualbox
        * Virtual machine with ubuntu version 22.04
        * kubeadm for kubernetes cluster with one control plane and one node
+       * vagrant
        * Source Code Management: Github
        * Build Server: Jenkins 
        * Kustomize
@@ -55,6 +56,7 @@ SonarQube is an open-source platform for continuous inspection of code quality
 - Create dockerhub account: https://hub.docker.com/
 - ArgoCD: https://argo-cd.readthedocs.io/en/stable/getting_started/
 - Kustomize: https://kubectl.docs.kubernetes.io/installation/kustomize/
+- vagrant: https://developer.hashicorp.com/vagrant/docs/installation
 
 ## 4. **Workflow**
 
@@ -74,7 +76,7 @@ In order to fully understand the workfow, let's take the following scenario:
 
 - sonarqube sent the code analysis result back to jenkins
 
-- jenkins read dockerfile to build, scan with snyk container
+- jenkins read dockerfile to build image and invoke snyk to scan it
 
 ### Keywords
 
