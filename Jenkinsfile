@@ -26,15 +26,17 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
      stages {
-        /*stage('Check Syntax - Dockerfile'){
+        stage('Check Syntax - Dockerfile'){
           steps{
              script {
                     sh '''
+                    
                        docker run -v ${WORKSPACE}:${WORKSPACE}/project hadolint/hadolint hadolint ${WORKSPACE}/project/Dockerfile
+                           
                     '''
                }
             }
-          }*/
+          }
         /*stage('SonarQube analysis') {
            when{  
             expression {
