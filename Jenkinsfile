@@ -26,7 +26,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
      stages {
-        /*stage('Check Syntax - Dockerfile'){
+        stage('Check Syntax - Dockerfile'){
           steps{
              script {
                     sh '''
@@ -36,7 +36,7 @@ pipeline {
                     '''
                }
             }
-          }*/
+          }
         stage('SonarQube analysis') {
            when{  
             expression {
