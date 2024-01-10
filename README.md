@@ -9,10 +9,7 @@
    * Notification system
 
 ## 2. **Tools**
-       * virtualbox
-       * Virtual machine with ubuntu version 22.04
-       * kubeadm for kubernetes cluster with one control plane and one node
-       * vagrant
+       * AWS: Ec2, EKS
        * Source Code Management: Github
        * Build Server: Jenkins 
        * Kustomize
@@ -49,14 +46,12 @@ SonarQube is an open-source platform for continuous inspection of code quality
   recommended conventions. 
 ## 4. **Installation tools** 
 - Install jenkins https://www.jenkins.io/doc/book/installing/linux/
-- virtualbox:https://www.virtualbox.org/wiki/Download_Old_Builds_6_1
-- Ubuntu server:https://ubuntu.com/download/server
 - Install sonarqube https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-server/
 - Create snyk account https://snyk.io/
 - Create dockerhub account: https://hub.docker.com/
 - ArgoCD: https://argo-cd.readthedocs.io/en/stable/getting_started/
 - Kustomize: https://kubectl.docs.kubernetes.io/installation/kustomize/
-- vagrant: https://developer.hashicorp.com/vagrant/docs/installation
+  
 
 ## 4. **Workflow**
 
