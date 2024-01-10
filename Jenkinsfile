@@ -123,7 +123,7 @@ pipeline {
                 }
             }
         }
-        stage('Clean container') {
+        /*stage('Clean container') {
           agent any
             when{  
             expression {
@@ -137,7 +137,7 @@ pipeline {
                '''
              }
           }
-        }
+        }*/
         stage('Login Dockerhub') {
             steps {
                 script {
