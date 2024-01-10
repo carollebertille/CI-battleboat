@@ -264,7 +264,7 @@ pipeline {
               '''
             }
         }*/
-        /*stage('Find xss vulnerability'){
+         stage('Find xss vulnerability'){
           steps{
              script {
                     sh '''
@@ -272,7 +272,7 @@ pipeline {
                     '''
                }
             }
-          }*/
+          }
         stage('Argocd') {
             steps {
                 script {
