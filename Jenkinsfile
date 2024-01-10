@@ -77,7 +77,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Scan Image with  SNYK') {
+         stage('Scan Image with  SNYK') {
             agent any
             when{  
             expression {
