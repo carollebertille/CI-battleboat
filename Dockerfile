@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
 LABEL maintainer carolle
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nginx \
