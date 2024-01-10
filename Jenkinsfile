@@ -264,6 +264,13 @@ pipeline {
               '''
             }
         }*/
+        stage('Wait for Argocd') {
+            steps {
+                script {
+                 echo "wait for argocd"
+                }
+            }
+        }
          stage('Find xss vulnerability'){
           steps{
              script {
@@ -273,15 +280,6 @@ pipeline {
                }
             }
           }
-        stage('Wait for Argocd') {
-            steps {
-                script {
-                 echo "wait for argocd"
-                }
-            }
-        }
-        
-
  }
  post {
      always {
