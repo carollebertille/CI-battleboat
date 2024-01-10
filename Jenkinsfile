@@ -273,7 +273,7 @@ pipeline {
                }
             }
           }
-        stage('Argocd') {
+        stage('Wait for Argocd') {
             steps {
                 script {
                  echo "wait for argocd"
