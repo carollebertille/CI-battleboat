@@ -64,7 +64,7 @@ pipeline {
                 waitForQualityGate abortPipeline: true }
             }
         }
-       /* stage('Build image') {
+        stage('Build image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -76,7 +76,7 @@ pipeline {
                     '''
                 }
             }
-        }*/
+        }
         /*stage('Scan Image with  SNYK') {
             agent any
             when{  
@@ -96,7 +96,7 @@ pipeline {
                     '''
                 }
             }
-        }*/
+        }
          stage('Run container based on build image') {
           agent any
           steps {
@@ -123,7 +123,7 @@ pipeline {
                 }
             }
         }
-       /* stage('Clean container') {
+        stage('Clean container') {
           agent any
             when{  
             expression {
@@ -160,7 +160,7 @@ pipeline {
                 }
             }
         }
-         stage('Pull and tag image QA') {
+         /*stage('Pull and tag image QA') {
            when{  
             expression {
               params.Environment == 'QA' }
@@ -203,7 +203,7 @@ pipeline {
                       '''
                 }
             }
-        }
+        }*/
         stage('Update DEV manifest') {
          when{  
             expression {
@@ -233,7 +233,7 @@ pipeline {
                 git commit -am 'Publish new qa release' && git push
               '''
             }
-        } 
+        }
         stage('Update sandbox manifest') {
           when{  
             expression {
@@ -264,7 +264,7 @@ pipeline {
               '''
             }
         }*/
-       /* stage('Find xss vulnerability'){
+        stage('Find xss vulnerability'){
           steps{
              script {
                     sh '''
@@ -272,7 +272,7 @@ pipeline {
                     '''
                }
             }
-          }*/
+          }
          
         stage('Argocd') {
             steps {
@@ -281,7 +281,7 @@ pipeline {
                 }
             }
         }
-        stage('Find xss vulnerability') {
+        /*stage('Find xss vulnerability') {
             agent { docker { 
                   image 'gauntlt/gauntlt' 
                   args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
@@ -310,7 +310,7 @@ pipeline {
                 sh 'gauntlt --version'
                 sh 'gauntlt ${WORKSPACE}/attack/attack/curl.attack'
             }
-          }
+          }*/
 
  }
  post {
