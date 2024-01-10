@@ -20,13 +20,13 @@ pipeline {
 
     }
     environment {
-        IMAGE_NAME = "battleboat"
+        IMAGE_NAME = "battleboat"    
         DOCKERHUB_ID = "edennolan2021"
         EXPOSE_PORT="8181"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
      stages {
-        stage('Check Syntax - Dockerfile'){
+        /*stage('Check Syntax - Dockerfile'){
           steps{
              script {
                     sh '''
@@ -36,8 +36,8 @@ pipeline {
                     '''
                }
             }
-          }
-        /*stage('SonarQube analysis') {
+          }*/
+        stage('SonarQube analysis') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -63,8 +63,8 @@ pipeline {
                 timeout(time: 1, unit: 'Hours') {
                 waitForQualityGate abortPipeline: true }
             }
-        }*/
-        stage('Build image') {
+        }
+       /* stage('Build image') {
            when{  
             expression {
               params.Environment == 'DEV' }
@@ -76,7 +76,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
         /*stage('Scan Image with  SNYK') {
             agent any
             when{  
