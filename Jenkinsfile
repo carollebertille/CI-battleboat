@@ -218,7 +218,7 @@ pipeline {
                 git commit -am 'Publish new dev release' && git push
               '''
             }
-        }*/
+        }
        /*stage('Update QA manifest') {
           when{  
             expression {
@@ -280,36 +280,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Find xss vulnerability') {
-            agent { docker { 
-                  image 'gauntlt/gauntlt' 
-                  args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt ${WORKSPACE}/attack/attack/xss.attack'
-            }
-          }
-         stage('Find cookies vulnerability') {
-            agent { docker { 
-                  image 'gauntlt/gauntlt' 
-                  args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt ${WORKSPACE}/attack/attack/cookies.attack'
-            }
-          }
-         stage('Find curl vulnerability') {
-            agent { docker { 
-                  image 'gauntlt/gauntlt' 
-                  args '-v ${WORKSPACE}:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt ${WORKSPACE}/attack/attack/curl.attack'
-            }
-          }*/
+        
 
  }
  post {
@@ -320,4 +291,3 @@ pipeline {
     }
  }
 }
-
